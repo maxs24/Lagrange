@@ -14,6 +14,18 @@ class View:
     def draw_line(self, screen, color, point_one, point_two):
         pygame.draw.line(screen, color, point_one, point_two)
 
+    def draw_marks(self, screen):
+        for i in range(-self.size_coord[0], self.size_coord[0]):
+            y_start = self.coordTransform.coord_y_to_display(0.1)
+            y_end = self.coordTransform.coord_y_to_display(-0.1)
+            x = self.coordTransform.coord_x_to_display(i)
+            self.draw_line(screen, (0, 0, 0), (x, y_start), (x, y_end))
+        for i in range(-self.size_coord[1], self.size_coord[1]):
+            x_start = self.coordTransform.coord_x_to_display(0.1)
+            x_end = self.coordTransform.coord_x_to_display(-0.1)
+            y = self.coordTransform.coord_y_to_display(i)
+            self.draw_line(screen, (0, 0, 0), (x_start, y), (x_end, y))
+
     def draw_axes(self, screen):
         x_min = self.coordTransform.coord_x_to_display(self.size_coord[0] * (-1))
         x_max = self.coordTransform.coord_x_to_display(self.size_coord[0])
@@ -38,16 +50,17 @@ class View:
         for p in points:
             p_x = self.coordTransform.coord_x_to_display(p[0])
             p_y = self.coordTransform.coord_y_to_display(p[1])
-            pygame.draw.circle(screen, (0, 0, 0), (p_x, p_y), 3)
+            pygame.draw.circle(screen, (255, 0, 0), (p_x, p_y), 3)
 
     def draw_graph(self, screen, is_draw_lagrange):
         self.draw_axes(screen)
+        self.draw_marks(screen)
         if is_draw_lagrange:
             self.draw_points(screen)
             self.draw_lagrange(screen)
 
     def run(self):
-        screen = pygame.display.set_mode(self.size_display, pygame.RESIZABLE)
+        screen = pygame.display.set_mode(self.size_display)
         pygame.display.update()
         play = True
         is_draw_lagrange = False
