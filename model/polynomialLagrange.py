@@ -23,8 +23,6 @@ class PolynomialLagrange:
         value_basic = 1
         for j in range(self.n):
             if j != i:
-                if self.points[i][0] - self.points[j][0] == 0:
-                    print("Ошибка")
                 value_basic *= (x - self.points[j][0])/(self.points[i][0] - self.points[j][0])
         return value_basic
 
